@@ -3,7 +3,7 @@ package todo_handler
 import (
 	"net/http"
 
-	"github.com/RyushiAok/todo-go/infrastructure/persistence"
+	"github.com/RyushiAok/todo-go/domain/usecase"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,13 +11,13 @@ type GetTodoRequest struct {
 	Id string `json:"todo_id"`
 }
 
-func GetTodo(repo *persistence.TodoRepository, ctx *gin.Context) {
+func GetTodo(uc usecase.ITodoUsecase, ctx *gin.Context) {
 	var input GetTodoRequest
 	if err := ctx.BindJSON(&input); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	todo, err := repo.Get(input.Id)
+	todo, err := uc.Get(input.Id)
 	if err != nil {
 		return
 	}

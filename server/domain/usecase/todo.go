@@ -1,16 +1,14 @@
 package usecase
 
 import (
-	"fmt"
-
 	"github.com/RyushiAok/todo-go/domain/entities"
 	"github.com/RyushiAok/todo-go/domain/repository"
 )
 
 type ITodoUsecase interface {
-	Create(repo *repository.ITodoRepository, title string, description string) (*entities.Todo, error)
-	Get(repo *repository.ITodoRepository, id string) (*entities.Todo, error)
-	Delete(repo *repository.ITodoRepository, id string) (*entities.Todo, error)
+	Create(title string, description string) (*entities.Todo, error)
+	Get(id string) (*entities.Todo, error)
+	Delete(id string) error
 }
 
 type TodoUsecase struct {
@@ -23,15 +21,10 @@ func NewTodoUsecase(repo repository.ITodoRepository) *TodoUsecase {
 	}
 }
 
-func (uc *TodoUsecase) Create(todo *entities.Todo) (*entities.Todo, error) {
-	if todo.Title == "" {
-		return nil, fmt.Errorf("title is empty")
-	}
-	if todo.Description == "" {
-		return nil, fmt.Errorf("description is empty")
-	}
+var _ ITodoUsecase = &TodoUsecase{}
 
-	return uc.repo.Create(todo.Title, todo.Description)
+func (uc *TodoUsecase) Create(title, description string) (*entities.Todo, error) {
+	return uc.repo.Create(title, description)
 }
 
 func (uc *TodoUsecase) Get(id string) (*entities.Todo, error) {

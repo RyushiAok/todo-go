@@ -6,9 +6,9 @@ import (
 )
 
 type IUserUsecase interface {
-	CreateUser(repo *repository.IUserRepository, name string) (*entities.User, error)
-	GetUser(repo *repository.IUserRepository, id string) (*entities.User, error)
-	DeleteUser(repo *repository.IUserRepository, id string) (*entities.User, error)
+	Create(name string) (*entities.User, error)
+	Get(id string) (*entities.User, error)
+	Delete(id string) error
 }
 
 type UserUsecase struct {
@@ -20,6 +20,8 @@ func NewUserUsecase(repo repository.IUserRepository) *UserUsecase {
 		repo: repo,
 	}
 }
+
+var _ IUserUsecase = &UserUsecase{}
 
 func (uu *UserUsecase) Create(name string) (*entities.User, error) {
 	return uu.repo.Create(name)
