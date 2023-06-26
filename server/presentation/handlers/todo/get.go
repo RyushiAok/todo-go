@@ -7,17 +7,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GetTodoRequest struct {
-	Id string `json:"todo_id"`
-}
-
 func GetTodo(uc usecase.ITodoUsecase, ctx *gin.Context) {
-	var input GetTodoRequest
-	if err := ctx.BindJSON(&input); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	todo, err := uc.Get(input.Id)
+	id := ctx.Param("id")
+	todo, err := uc.Get(id)
 	if err != nil {
 		return
 	}

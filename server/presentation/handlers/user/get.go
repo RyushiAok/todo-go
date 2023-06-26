@@ -7,17 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type GetUserRequest struct {
-	Id string `json:"id"`
-}
-
 func GetUser(uc usecase.IUserUsecase, ctx *gin.Context) {
-	var input GetUserRequest
-	if err := ctx.BindJSON(&input); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	id := input.Id
+	id := ctx.Param("id")
 	user, err := uc.Get(id)
 	if err != nil {
 		return

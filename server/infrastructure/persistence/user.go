@@ -17,7 +17,7 @@ var _ repository.IUserRepository = &UserRepository{}
 func (repo *UserRepository) Create(name string) (*entities.User, error) {
 	user := entities.User{
 		Id:   "1",
-		Name: "test",
+		Name: name,
 	}
 	return &user, nil
 }
@@ -28,7 +28,7 @@ func (repo *UserRepository) Delete(id string) error {
 
 func (repo *UserRepository) Get(id string) (*entities.User, error) {
 	user := entities.User{
-		Id:   "1",
+		Id:   id,
 		Name: "test",
 	}
 	return &user, nil
